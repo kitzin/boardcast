@@ -11,7 +11,7 @@ module.exports = function(cb) {
 	var connection = mysql.createConnection({
 		host: "localhost",
 		user: "boardcast",
-		password: "4sb8c66sUvYWPQJU",
+		password: "",
 		database: "boardcast"
 	});
 	
