@@ -1,14 +1,10 @@
 var express = require("express"),
 	http = require("http"),
 	path = require("path"),
-	Log = require("./lib/Log");
+	Log = require("./lib/Log"),
+	Query = require("./lib/mysql").Query;
 
 var app = express();
-
-Log.get("file")
-	.add("info", "/home/webserver/boardcast.in/boardcast/log/info.log")
-	.add("error", "/home/webserver/boardcast.in/boardcast/log/error.log")
-	.use("info");
 
 // all environments
 app.configure(function() {
@@ -16,6 +12,10 @@ app.configure(function() {
 	app.set("views", __dirname + '/views');
 	app.set("view engine", "jade");
 
+	app.use(function(req, res, next) {
+		next();
+	});
+	
 	app.use(express.favicon());
 	app.use(express.logger("dev"));
 	app.use(express.bodyParser());
@@ -23,10 +23,6 @@ app.configure(function() {
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, "public")));
 
-	app.use(function(req, res, next) {
-		Log.warning("sup");
-		next();
-	});
 });
 
 // development only
@@ -35,9 +31,24 @@ if("development" == app.get("env")) {
 }
 
 app.get("/", function(req, res) {
-	res.send("boardcast.in");
+	var q = new Query("SELECT :num1 + :num2 AS sup");
+	q.prepare({
+		num1: 30,
+		num2: 43
+	});
+	
+	q.execute(function(err, rows) {
+		if(err) throw err;
+		Log.error(rows[0].sup);
+		
+		res.send("boardcast.in");
+	});
+	
+	
 });
 
-http.createServer(app).listen(app.get("port"), "127.0.0.1", function() {
-	console.log("boardcast server started at port " + app.get("port"));
+require("./Init")(function() {
+	http.createServer(app).listen(app.get("port"), "127.0.0.1", function() {
+		Log.use("console").info("boardcast server started at port " + app.get("port"));
+	});
 });
