@@ -1,4 +1,4 @@
 boardcast
 =========
 
-A chat(room)? type thing with rsa enctyped messages!
+A chat(room)? type thing with rsa encrypted messages!
