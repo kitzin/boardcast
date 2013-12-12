@@ -2,7 +2,9 @@ var express = require("express"),
 	http = require("http"),
 	path = require("path"),
 	Log = require("./lib/Log"),
-	Query = require("./lib/mysql").Query;
+	Query = require("./lib/mysql").Query,
+	crypto = require("crypto"),
+	User = require("./lib/User");
 
 var app = express();
 
@@ -16,6 +18,8 @@ app.configure(function() {
 		next();
 	});
 	
+	app.use(express.cookieParser());
+	app.use(express.session({ secret: "supbroyouaremessingwithmenowLEET1337" }));
 	app.use(express.favicon());
 	app.use(express.logger("dev"));
 	app.use(express.bodyParser());
@@ -31,20 +35,26 @@ if("development" == app.get("env")) {
 }
 
 app.get("/", function(req, res) {
-	var q = new Query("SELECT :num1 + :num2 AS sup");
-	q.prepare({
+	new Query("SELECT :num1 + :num2 AS answer", {
 		num1: 30,
-		num2: 43
+		num2: 45
+	}).execute(function(err, rows) {
+		res.send("boardcast.in " + rows[0].answer);
 	});
-	
-	q.execute(function(err, rows) {
-		if(err) throw err;
-		Log.error(rows[0].sup);
-		
-		res.send("boardcast.in");
+});
+
+app.get("/login", function(req, res) {
+	res.render("login");
+});
+app.post("/login", function(req, res) {
+	var u = User.fromUserPass(req.body.username, req.body.password);
+	u.login(function(err, user) {
+		if(err) {
+			res.send(JSON.stringify(err));
+		} else {
+			res.send(JSON.stringify(user));
+		}
 	});
-	
-	
 });
 
 require("./Init")(function() {
