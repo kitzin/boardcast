@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	form(action="/create", method="POST")
+		input(type="text", placeholder="username", name="username")/
+		input(type="text", placeholder="username (optional)", name="email")/
+		input(type="password", placeholder="password", name="password")/
+		input(type="password", placeholder="password again", name="password_again")/
+		input(type="submit", value="Create", name="submit")/

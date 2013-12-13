@@ -2,8 +2,6 @@ var express = require("express"),
 	http = require("http"),
 	path = require("path"),
 	Log = require("./lib/Log"),
-	Query = require("./lib/mysql").Query,
-	crypto = require("crypto"),
 	User = require("./lib/User");
 
 var app = express();
@@ -34,27 +32,16 @@ if("development" == app.get("env")) {
   app.use(express.errorHandler());
 }
 
-app.get("/", function(req, res) {
-	new Query("SELECT :num1 + :num2 AS answer", {
-		num1: 30,
-		num2: 45
-	}).execute(function(err, rows) {
-		res.send("boardcast.in " + rows[0].answer);
-	});
-});
+var routes = [
+	require("./routes/home"),
+	require("./routes/login_render"),
+	require("./routes/login"),
+	require("./routes/create_render"),
+	require("./routes/create")
+];
 
-app.get("/login", function(req, res) {
-	res.render("login");
-});
-app.post("/login", function(req, res) {
-	var u = User.fromUserPass(req.body.username, req.body.password);
-	u.login(function(err, user) {
-		if(err) {
-			res.send(JSON.stringify(err));
-		} else {
-			res.send(JSON.stringify(user));
-		}
-	});
+routes.forEach(function(route) {
+	app[route.method](route.url, route.route);
 });
 
 require("./Init")(function() {
