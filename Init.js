@@ -23,6 +23,19 @@ exports.Prepare = function() {
 		};
 	});
 	
+	// Default user row
+	defaults.set("user", function() {
+		return {
+			username: "", 
+			password: "",
+			salt: "",			
+			created: new Date().getTime(),
+			last_login: 0,
+			friends: [],
+			profile_picture: "Default Picture"
+		}
+	});
+	
 	// Initalize file logger
 	Log.use("file").base
 		.add("info", "/home/webserver/boardcast.in/boardcast/log/info.log")

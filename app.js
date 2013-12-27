@@ -23,11 +23,10 @@ app.configure(function() {
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, "public")));
-
+	
 	app.use(Log.request);
-	app.use(Session.save);
 	app.use(function(req, res, next) {
-		// Get (req.params.*) and post (req.body.*) variables
+		
 		next();
 	});
 });
@@ -43,7 +42,8 @@ var routes = [
 	require("./routes/login"),
 	require("./routes/home"),
 	require("./routes/login_render"),
-	require("./routes/create_render")
+	require("./routes/create_render"),
+	require("./routes/logout")
 ];
 
 // Add middleware for route defined auth levels

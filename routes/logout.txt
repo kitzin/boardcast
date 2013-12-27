@@ -1,0 +1,2 @@
+﻿var route = require("../lib/defaults").get("route");
+
