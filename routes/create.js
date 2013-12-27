@@ -25,7 +25,8 @@ route.route = function(req, res) {
 	}
 	
 	if(errors.length >= 1) {
-		e.errorText = "The field" + (errors.length > 1) ? "s" : "" + " (" + errors.join(", ") + ") was not filled in.";
+		e.code = User.error.VALIDATION;
+		e.errorText = "The field" + (errors.length > 1) ? "s" : "" + " (" + errors.join(", ") + ") did not pass the validation.";
 		res.send(JSON.stringify(e));
 	}
 	else {
@@ -39,7 +40,15 @@ route.route = function(req, res) {
 				res.send(JSON.stringify(err));
 			}
 			else {
-				
+				/*
+				{
+					code: 0,
+					successText: "User was successfully created!",
+					data: {
+						user: user
+					}
+				}
+				*/			
 				// Successfully created a user
 				res.send("OKEEEEEEY WHEN THIS IS RETURNED TO THE CLIENT PLEASE REDIRECT TO HTTP://BOARDCAST.IN/LOGIN");
 			}
