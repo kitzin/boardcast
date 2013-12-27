@@ -1,12 +1,8 @@
+var route = require("../lib/defaults").get("route");
 
-var route = {
-	method: "get",
-	url: "/login",
-	route: function(req, res) {
-	
-		res.render("login");
-		
-	}
-};
+route.url = "/login";
+route.route = function(req, res) {
+	res.render("login");
+}
 
 module.exports = route;

@@ -1,20 +1,19 @@
 var express = require("express"),
 	http = require("http"),
 	path = require("path"),
-	Log = require("./lib/Log"),
-	User = require("./lib/User");
+	Log = require("./lib/Log").use("console"),
+	Authorize = require("./lib/Authorize"),
+	Session = require("./lib/Session"),
+	Init = require("./Init");
 
+// Initalize default objects and some more
+Init.Prepare();
+	
 var app = express();
-
-// all environments
 app.configure(function() {
 	app.set("port", process.env.PORT || 1337);
 	app.set("views", __dirname + '/views');
 	app.set("view engine", "jade");
-
-	app.use(function(req, res, next) {
-		next();
-	});
 	
 	app.use(express.cookieParser());
 	app.use(express.session({ secret: "supbroyouaremessingwithmenowLEET1337" }));
@@ -25,27 +24,37 @@ app.configure(function() {
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, "public")));
 
+	app.use(Log.request);
+	app.use(Session.save);
+	app.use(function(req, res, next) {
+		// Get (req.params.*) and post (req.body.*) variables
+		next();
+	});
 });
 
-// development only
-if("development" == app.get("env")) {
+// dev only
+if(app.get("env") === "development") {
   app.use(express.errorHandler());
 }
 
+// All the routes
 var routes = [
+	require("./routes/create"),
+	require("./routes/login"),
 	require("./routes/home"),
 	require("./routes/login_render"),
-	require("./routes/login"),
-	require("./routes/create_render"),
-	require("./routes/create")
+	require("./routes/create_render")
 ];
 
+// Add middleware for route defined auth levels
 routes.forEach(function(route) {
-	app[route.method](route.url, route.route);
+	var auth = new Authorize(route);
+	auth.add(app);
 });
 
-require("./Init")(function() {
+// Start server after mysql connection has been established
+Init.Start(function() {
 	http.createServer(app).listen(app.get("port"), "127.0.0.1", function() {
-		Log.use("console").info("boardcast server started at port " + app.get("port"));
+		Log.info("boardcast server started at port " + app.get("port"));
 	});
 });
