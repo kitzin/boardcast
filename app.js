@@ -3,7 +3,7 @@ var express = require("express"),
 	path = require("path"),
 	Log = require("./lib/Log").use("console"),
 	Authorize = require("./lib/Authorize"),
-	Session = require("./lib/Session"),
+	RequestHandler = require("./lib/RequestHandler"),
 	Init = require("./Init");
 
 // Initalize default objects and some more
@@ -23,18 +23,33 @@ app.configure(function() {
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, "public")));
-	
-	app.use(Log.request);
-	app.use(function(req, res, next) {
-		
-		next();
-	});
 });
 
 // dev only
 if(app.get("env") === "development") {
   app.use(express.errorHandler());
 }
+
+// If not /app then redirect if client is logged in
+app.get("/*", function(req, res, next) {
+	if(!/\/app\/?(\?.*)?/g.test(req.url)) {
+		var h = new RequestHandler(req);
+		if(h.session.isLogin()) {
+			res.redirect("/app");
+		} else next();
+	} else next();
+});
+// Redirect logged in people to /app
+/*app.get("\/((?!\/app).)*", function(req, res, next) {
+	var h = new RequestHandler(req);
+	Log.info(h.session.isLogin());
+	if(h.session.isLogin()) {
+		res.redirect("/app");
+	}
+	else {
+		next();
+	}
+});*/
 
 // All the routes
 var routes = [
@@ -43,7 +58,8 @@ var routes = [
 	require("./routes/home"),
 	require("./routes/login_render"),
 	require("./routes/create_render"),
-	require("./routes/logout")
+	require("./routes/logout"),
+	require("./routes/app")
 ];
 
 // Add middleware for route defined auth levels

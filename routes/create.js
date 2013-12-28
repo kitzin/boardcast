@@ -1,26 +1,26 @@
 var defaults = require("../lib/defaults"),
 	Authorize = require("../lib/Authorize"),
 	User = require("../lib/User"),
-	Session = require("../lib/Session");
+	RequestHandler = require("../lib/RequestHandler");
 
 var route = defaults.get("route");	
 
 route.method = "post";
 route.level = Authorize.level.session.code | Authorize.level.ajax.code;
-route.url = "/create";
+route.url = "/action/create";
 route.route = function(req, res) {
 	var user = defaults.get("user"),
-		s = new Session(req.session),
+		handler = new RequestHandler(req),
 		e = defaults.get("error"),
 		errors = [];
 	
-	if(!s.isset("username") || !User.valid.username(s.get("username"))) {
+	if(!handler.body.isset("username") || !User.valid.username(handler.body.get("username"))) {
 		errors.push("username");
 	}
-	if(!s.isset("password") || !User.valid.password(s.get("password"))) {
+	if(!handler.body.isset("password") || !User.valid.password(handler.body.get("password"))) {
 		errors.push("password");
 	}
-	if(s.isset("email") && !User.valid.email(s.get("email"))) {
+	if(handler.body.isset("email") && !User.valid.email(handler.body.get("email"))) {
 		errors.push("email");
 	}
 	
@@ -30,9 +30,9 @@ route.route = function(req, res) {
 		res.send(JSON.stringify(e));
 	}
 	else {
-		user.username = s.get("username");
-		user.password = s.get("password");
-		user.email = s.isset("email") ? s.get("email") : "";
+		user.username = handler.body.get("username");
+		user.password = handler.body.get("password");
+		user.email = handler.body.isset("email") ? handler.body.get("email") : "";
 		
 		var u = User.fromUser(user);
 		u.create(function(err, user) {

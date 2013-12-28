@@ -1,6 +1,6 @@
 ﻿var route = require("../lib/defaults").get("route"),
 	Authorize = require("../lib/Authorize"),
-	Session = require("../lib/Session");
+	RequestHandler = require("../lib/RequestHandler");
 
 route.url = "/logout";
 route.level = Authorize.level.login.code;
