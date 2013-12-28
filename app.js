@@ -39,17 +39,6 @@ app.get("/*", function(req, res, next) {
 		} else next();
 	} else next();
 });
-// Redirect logged in people to /app
-/*app.get("\/((?!\/app).)*", function(req, res, next) {
-	var h = new RequestHandler(req);
-	Log.info(h.session.isLogin());
-	if(h.session.isLogin()) {
-		res.redirect("/app");
-	}
-	else {
-		next();
-	}
-});*/
 
 // All the routes
 var routes = [
