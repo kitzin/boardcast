@@ -6,14 +6,20 @@ var RequestHandler = require("../lib/RequestHandler"),
 
 var route = defaults.get("route");
 	
-//route.level = Authorize.level.session.code | Authorize.level.ajax.code;
+route.level = Authorize.level.session.code; //| Authorize.level.ajax.code;
 route.method = "post";
 route.url = "/action/login";
 route.route = function(req, res) {
 	
 	var handler = new RequestHandler(req);
 		e = defaults.get("error"),
-		errors = [];
+		errors = [],
+		response = defaults.get("response");
+		response.action = "LOGIN";
+	
+	if(handler.body.get("auth_cookie") !== "") {
+		// Bot
+	}
 	
 	if(!handler.body.isset("username") || handler.body.get("username") === "") {
 		errors.push("username");
@@ -24,30 +30,23 @@ route.route = function(req, res) {
 	
 	if(errors.length >= 1) {
 		e.code = User.error.VALIDATION;
-		e.errorText = "The field"+ (errors.length > 1 ? "s" : "") + " ("+ errors.join(", ") +") was not filled in.";
-		res.send(JSON.stringify(e));
+		e.message = "The field"+ (errors.length > 1 ? "s" : "") + " ("+ errors.join(", ") +") was not filled in.";
+		
+		response.error = e;
+		res.send(JSON.stringify(response));
 	}
 	else {
 		var u = User.fromUserPass(handler.body.get("username"), handler.body.get("password"));
 		u.login(function(err, user) {
 			if(err) {
-				res.send(JSON.stringify(err));
+				response.error = err;
+				res.send(JSON.stringify(response));
 			}
 			else {
-				/*
-				{
-					code: 0,
-					successText: "User was successfully created!",
-					data: {
-						user: user
-					}
-				}
-				*/			
-				// Successfully logged in YEAH!
-				//var s = new Session(req.session);
-				//s.login(user);
+				user = User.harmful(user);
+				response.data.user = user;
 				handler.session.login(user);
-				res.send("OKEKEEEEEY YOU HAVE SUCCESSFULLY LOGGED IN YOU SNEEKY BASTARD! REDIRECT TO HTTP://BOARDCAST.IN/APP");
+				res.send(JSON.stringify(response));
 			}
 		});
 	}

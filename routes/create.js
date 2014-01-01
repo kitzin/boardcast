@@ -7,13 +7,19 @@ var defaults = require("../lib/defaults"),
 var route = defaults.get("route");	
 
 route.method = "post";
-//route.level = Authorize.level.session.code | Authorize.level.ajax.code;
+route.level = Authorize.level.session.code; //| Authorize.level.ajax.code;
 route.url = "/action/create";
 route.route = function(req, res) {
 	var user = defaults.get("user"),
 		handler = new RequestHandler(req),
 		e = defaults.get("error"),
-		errors = [];
+		errors = [],
+		response = defaults.get("response");
+		response.action = "CREATE";
+		
+	if(handler.body.get("auth_cookie") !== "") {
+		// Bot
+	}
 	
 	if(!handler.body.isset("username") || !User.valid.username(handler.body.get("username"))) {
 		errors.push("username");
@@ -30,8 +36,10 @@ route.route = function(req, res) {
 	
 	if(errors.length >= 1) {
 		e.code = User.error.VALIDATION;
-		e.errorText = "The field"+ (errors.length > 1 ? "s" : "") +" ("+ errors.join(", ") +") did not pass the validation!";
-		res.send(JSON.stringify(e));
+		e.message = "The field"+ (errors.length > 1 ? "s" : "") +" ("+ errors.join(", ") +") did not pass the validation!";
+		
+		response.error = e;
+		res.send(JSON.stringify(response));
 	}
 	else {
 		user.username = handler.body.get("username");
@@ -41,20 +49,13 @@ route.route = function(req, res) {
 		var u = User.fromUser(user);
 		u.create(function(err, user) {
 			if(err) {
-				res.send(JSON.stringify(err));
+				response.error = err;
+				res.send(JSON.stringify(response));
 			}
 			else {
-				/*
-				{
-					code: 0,
-					successText: "User was successfully created!",
-					data: {
-						user: user
-					}
-				}
-				*/			
-				// Successfully created a user
-				res.send("OKEEEEEEY WHEN THIS IS RETURNED TO THE CLIENT PLEASE REDIRECT TO HTTP://BOARDCAST.IN/LOGIN");
+				user = User.harmful(user);
+				response.data.user = user;
+				res.send(JSON.stringify(response));
 			}
 		});
 	}

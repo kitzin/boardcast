@@ -6,4 +6,6 @@ block content
 		input(type="text", placeholder="username (optional)", name="email")/
 		input(type="password", placeholder="password", name="password")/
 		input(type="password", placeholder="password again", name="password_again")/
+		input(type="hidden", value="#{token}", name="session_token")/
+		input(type="text", value="", style="display: none;", name="auth_cookie")/
 		input(type="submit", value="Create", name="submit")/

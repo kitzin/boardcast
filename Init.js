@@ -9,8 +9,17 @@ exports.Prepare = function() {
 	defaults.set("error", function() {
 		return {
 			code: 0,
-			errorText: ""
+			message: ""
 		}
+	});
+	
+	// Set default response
+	defaults.set("response", function() {
+		return {
+			error: defaults.get("error"),
+			action: "", // not decided yet
+			data: {}
+		};
 	});
 	
 	// Set default route object
@@ -33,7 +42,7 @@ exports.Prepare = function() {
 			last_login: 0,
 			friends: [],
 			profile_picture: "Default Picture"
-		}
+		};
 	});
 	
 	// Initalize file logger
