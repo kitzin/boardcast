@@ -4,7 +4,9 @@
 route.url = "/app";
 route.level = auth.level.login.code;
 route.route = function(req, res) {
-	res.send("BOARDCAST APP YOLO");
+	res.render("app", {
+		title: "Boardcast - App"
+	});
 }
 
 module.exports = route;

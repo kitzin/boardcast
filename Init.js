@@ -35,13 +35,13 @@ exports.Prepare = function() {
 	// Default user row
 	defaults.set("user", function() {
 		return {
-			username: "", 
+			username: "",
 			password: "",
 			salt: "",			
 			created: new Date().getTime(),
 			last_login: 0,
-			friends: [],
-			profile_picture: "Default Picture"
+			profile_picture: "Default Picture",
+            nickname: ""
 		};
 	});
 	

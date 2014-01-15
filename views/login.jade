@@ -1,9 +1,46 @@
 extends layout
+
+block style
+	link(rel="stylesheet", href="/assets/styles/login.css")/
+	
+block javascript
+	script(src="/assets/js/login.js")
 	
 block content
-	form(action="/action/login", method="POST")
-		input(type="text", placeholder="username", name="username")/
-		input(type="password", placeholder="password", name="password")/
-		input(type="hidden", value="#{token}", name="session_token")/
-		input(type="text", value="", style="display: none;", name="auth_cookie")/
-		input(type="submit", value="Login", name="submit")/
+	div(id="login")
+		h1(class="ui large header") Login
+		form(action="/action/login", method="POST", class="ui form segment error", id="login_form")
+			
+			div(class="ui message red", style="display: none;")
+				i(class="close icon")
+				div(class="header")
+				p
+			
+			input(type="hidden", value="#{token}", name="session_token")/
+			input(type="text", value="", style="display: none;", name="auth_cookie")/
+			
+			div(class="field")
+				label Username
+				div(class="ui left labeled icon input")
+					input(name="username", placeholder="Username", type="text")/
+					i(class="lock icon")
+					div(class="ui corner label")
+						i(class="icon asterisk")
+					
+			div(class="field")
+				label Password
+				div(class="ui left labeled icon input")
+					input(name="password", placeholder="Password", type="password")/
+					i(class="lock icon")
+					div(class="ui corner label")
+						i(class="icon asterisk")
+					
+					
+			div(class="field")
+				div(class="ui toggle checkbox")
+					input(type="checkbox", name="remember")/
+					label Remember me
+			
+			div(class="ui blue submit button")
+				i(class="sign in icon")
+				| Login

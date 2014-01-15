@@ -6,6 +6,7 @@ route.route = function(req, res) {
 	var h = new Handler(req);
 	h.session.setToken(function(token) {
 		res.render("create", {
+			title: "Boardcast - Create User",
 			token: token
 		});	
 	});

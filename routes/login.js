@@ -43,9 +43,8 @@ route.route = function(req, res) {
 				res.send(JSON.stringify(response));
 			}
 			else {
-				user = User.harmful(user);
-				response.data.user = user;
-				handler.session.login(user);
+				response.data.success = true;
+				handler.session.login(User.harmful(user));
 				res.send(JSON.stringify(response));
 			}
 		});

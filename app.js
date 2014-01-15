@@ -8,6 +8,8 @@ var express = require("express"),
 
 // Initalize default objects and some more
 Init.Prepare();
+
+// cd github/boardcast; (dir -include *.js -recurse | select-string .).Count
 	
 var app = express();
 app.configure(function() {
