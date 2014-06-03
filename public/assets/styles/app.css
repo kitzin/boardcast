@@ -1,10 +1,15 @@
 
+<<<<<<< HEAD
 html, body {
+=======
+body {
+>>>>>>> 0c6213d27a85c7c7bbc9160d0eb4601a52f0695f
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
 }
 
+<<<<<<< HEAD
 .row, .col { overflow: hidden; position: absolute; }
 .row { left: 0; right: 0; }
 .col { top: 0; bottom: 0; }
@@ -127,4 +132,15 @@ html, body {
 	right: 0px;
 	background-color: red;
 	color: green;
+=======
+
+#menu {
+	position: absolute;
+	right: 0px; top: 5px;
+}
+
+#online {
+	position: absolute;
+	top: -10px; left: -10px;
+>>>>>>> 0c6213d27a85c7c7bbc9160d0eb4601a52f0695f
 }

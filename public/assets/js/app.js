@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function BAjax(url) {
 	this.type = "POST";
 	this.url = url;
@@ -345,3 +346,17 @@ $(function() {
 	
 	boardcast.initialize();
 });
+=======
+
+
+$(function() {
+	
+	var menu = $("#menu");
+	menu.find("#expand").click(function() {
+		menu.animate({
+			right: "0px"
+		}, 1000);
+	});
+	
+});
+>>>>>>> 0c6213d27a85c7c7bbc9160d0eb4601a52f0695f

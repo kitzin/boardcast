@@ -2,7 +2,7 @@
 	auth = require("../lib/Authorize");
 
 route.url = "/app";
-route.level = auth.level.login.code;
+//route.level = auth.level.login.code;
 route.route = function(req, res) {
 	res.render("app", {
 		title: "Boardcast - App"

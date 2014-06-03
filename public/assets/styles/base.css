@@ -10,8 +10,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 a {
 	
+<<<<<<< HEAD
 }
 
 .clear {
 	clear: both;
+=======
+>>>>>>> 0c6213d27a85c7c7bbc9160d0eb4601a52f0695f
 }
