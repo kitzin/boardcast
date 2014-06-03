@@ -40,7 +40,7 @@ exports.Prepare = function() {
 			salt: "",			
 			created: new Date().getTime(),
 			last_login: 0,
-			profile_picture: "Default Picture",
+			profile_picture: "http://dotkitti.se/media/images/hummus.png",
             nickname: ""
 		};
 	});

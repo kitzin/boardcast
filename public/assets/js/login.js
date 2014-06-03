@@ -69,7 +69,7 @@ function Login(form) {
 		if(data.error.code === 0 && data.data.success === true) {
 			this.error("Yey!", "You have successfully been logged in and will be redirected to the app.", true);
 			setTimeout(function() {
-				window.location.href = "http://boardcast.in/app";
+				window.location.href = "http://dotkitti.se/app";
 			}, 2000);
 		}
 		else {

@@ -11,7 +11,7 @@ route.method = "post";
 route.url = "/action/login";
 route.route = function(req, res) {
 	
-	var handler = new RequestHandler(req);
+	var handler = new RequestHandler(req),
 		e = defaults.get("error"),
 		errors = [],
 		response = defaults.get("response");

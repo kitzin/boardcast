@@ -1,4 +1,132 @@
 extend layout
 
-block content
+block style
+	link(rel="stylesheet", href="/assets/styles/app.css")/
 	
+block javascript
+	script(src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.1/jquery.slimscroll.min.js")
+	script(src="/assets/js/app.core.js")
+	script(src="/assets/js/app.js")
+
+block content
+	div(class="container")
+		div(class="col", id="container")
+			div(class="row", id="header")
+				h1
+					a(href="/app") BC
+				
+			div(class="row", id="chat")
+				div(class="row", id="chats")
+					div(class="ui divider")
+					
+					div(class="chat col")
+						div(class="row messages")
+							div(class="ui list", id="scrollbar")
+								div(class="item sent")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Derp
+										span Nullam rutrum elit id risus volutpat condimentum. Aenean consequat dictum sodales. Pellentesque volutpat venenatis mollis
+								
+								div(class="item")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Merp
+										span Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum elit id risus volutpat condimentum. Aenean consequat dictum sodales. Pellentesque volutpat venenatis mollis
+										
+								div(class="item sent")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Derp
+										span I hate this
+								
+								div(class="item")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Merp
+										span Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+										
+								div(class="item sent")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Derp
+										span I hate this
+								
+								div(class="item")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Merp
+										span I love this
+										
+								div(class="item sent")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Derp
+										span Nullam rutrum elit id risus volutpat condimentum. Aenean consequat dictum sodales. Pellentesque volutpat venenatis mollis
+								
+								div(class="item")
+									img(class="ui avatar image", src="/media/images/hummus.png")
+									div(class="content")
+										div(class="header") Merp
+										span Nullam rutrum elit id risus volutpat condimentum.
+									
+						div(class="row input-message")
+							div(class="ui icon input fluid")
+								input(type="text")
+								i(class="icon smile")
+					
+				div(class="row", id="chat-tabs")
+					div(class="ui very relaxed horizontal divided list")
+						div(class="item")
+							a(class="header active") Derp
+							
+						div(class="item")
+							a(class="header") Merp
+							
+						div(class="item")
+							a(class="header") Ferp
+							
+						div(class="item")
+							a(class="header") Grep
+							
+				
+		div(class="col", id="friends")
+				
+			div(class="ui segment")
+				div(id="online", class="ui green label large") 5
+				div(id="friend_list", class="ui selection list tiny")
+					
+					div(class="item add")
+						div(class="ui form")
+							div(class="field")
+								label Add friend
+								input(type="text", id="add_friend")
+								
+	div(id="modal", style="display: none;")
+		div(class="header")
+			
+		div(class="text")
+			
+							
+	script(type="text/template", id="friend_template")
+		div(class="item friend")
+			| <img src="<%= image %>" class="ui avatar image" />
+			div(class="content")
+				div(class="header") <%= username %>
+		
+	script(type="text/template", id="chat_template")
+		div(class="chat col")
+			div(class="row messages")
+				div(class="ui list", id="scrollbar")
+		
+	script(type="text/template", id="chat_tabs_template")
+		div(class="item")
+			a(class="header") <%= nickname %>
+		
+	script(type="text/template", id="message_template")
+		div(class="item sent")
+			img(class="ui avatar image", src="<%= image %>")
+			div(class="content")
+				div(class="header") <%= nickname %>
+				span <%= message %>

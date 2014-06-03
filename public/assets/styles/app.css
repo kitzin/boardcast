@@ -1,0 +1,130 @@
+
+html, body {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.row, .col { overflow: hidden; position: absolute; }
+.row { left: 0; right: 0; }
+.col { top: 0; bottom: 0; }
+
+.col#friends {
+	right: 0px;
+	width: 220px;
+}
+.col#container {
+	left: 0px;
+	right: 220px;
+}
+
+.row#header {
+	height: 120px;
+	top: 0px;
+}
+.row#chat {
+	top: 120px;
+	bottom: 0px;
+}
+
+#friends > div {
+	position: absolute;
+	right: 0px;
+	top: 20px;
+}
+#online {
+	position: absolute;
+	top: -10px; left: -10px;
+}
+
+#header h1 {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+#header  h1 > a {
+	width: 100px; height: 100px;
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+	line-height: 100px;
+	color: #EEE;
+	background-color: #171717;
+	font-size: 45px;
+	font-weight: 300;
+	
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+			border-radius: 50%;
+	
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: rotate(-15deg);
+	   -moz-transform: rotate(-15deg);
+			transform: rotate(-15deg);
+	
+	-webkit-transition: 0.3s all;
+	   -moz-transition: 0.3s all;
+			transition: 0.3s all;
+	
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+			user-select: none;
+}
+#header h1 > a:hover {
+	transform: rotate(0deg);
+}
+
+.row#chats {
+	top: 0px;
+	bottom: 40px;
+}
+.row#chat-tabs {
+	bottom: 0px;
+	height: 40px;
+}
+
+#chats > div.divider {
+	position: relative;
+	top: -10px;
+}
+
+#chats > .chat {
+	top: 30px;
+	left: 20px;
+	right: 5px;
+}
+
+#chats .messages {
+	top: 10px;
+	bottom: 80px;
+	overflow-y: auto;
+}
+#chats .input-message {
+	bottom: 20px;
+	height: 45px;
+}
+#chats .chat .item.sent .header {
+	color: rgb(161, 207, 100);
+}
+#chats  .item .content {
+	width: 80%;
+}
+#chats .item {
+	margin: 8px 0px;
+}
+
+#chat-tabs > div {
+	margin-top: 5px;
+}
+#chat-tabs a.active {
+	color: rgb(161, 207, 100);
+}
+
+
+#modal {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: red;
+	color: green;
+}

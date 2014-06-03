@@ -32,17 +32,25 @@ if(app.get("env") === "development") {
   app.use(express.errorHandler());
 }
 
+var route = {
+	method: "get",          // Vilken http metod
+	url: "",                // URLen
+	route: function() {},   // Funktionen som ska köras när man kommer till URLen
+	level: 0                // Säkerhets nivå
+};
+
 // If not /app then redirect if client is logged in
-app.get("/*", function(req, res, next) {
+/*app.get("/*", function(req, res, next) {
 	if(!/\/app\/?(\?.*)?/g.test(req.url)) {
 		var h = new RequestHandler(req);
 		if(h.session.isLogin()) {
 			res.redirect("/app");
 		} else next();
 	} else next();
-});
+});*/
 
 // All the routes
+
 var routes = [
 	require("./routes/create"),
 	require("./routes/login"),
@@ -50,7 +58,10 @@ var routes = [
 	require("./routes/login_render"),
 	require("./routes/create_render"),
 	require("./routes/logout"),
-	require("./routes/app")
+	require("./routes/friends"),
+	require("./routes/addfriend"),
+	require("./routes/app"),
+	require("./routes/interval")
 ];
 
 // Add middleware for route defined auth levels
